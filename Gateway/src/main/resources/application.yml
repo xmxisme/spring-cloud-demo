@@ -1,0 +1,32 @@
+server:
+  port: 7573
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:8001/eureka/ # 注册中心url
+
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true
+      routes:
+        - id: uaa_service_route
+          uri: http://localhost:8004  # UAA 服务的实际地址
+          predicates:
+            - Path=/uaa/**  # 捕获所有 /uaa/ 下的请求
+          filters:
+            - StripPrefix=1  # 去掉 /uaa 前缀
+        - id: product_service_route
+          uri: http://localhost:8005
+          predicates:
+            - Path=/product/**
+          filters:
+            - StripPrefix=1

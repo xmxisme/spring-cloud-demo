@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>成功登录</title>
+</head>
+<body>
+<h1>登录成功！</h1>
+<p>您的访问令牌是：</p>
+<p id="token" th:text="${accessToken}">令牌加载中...</p> <!-- 使用 Thymeleaf 语法显示令牌 -->
+</body>
+</html>

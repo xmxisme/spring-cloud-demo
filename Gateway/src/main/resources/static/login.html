@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录页面</title>
+    <script>
+        function showLoginForm() {
+            var loginForm = document.getElementById('loginForm');
+            loginForm.style.display = 'block';
+        }
+
+        function submitLoginForm() {
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+
+            var loginData = {
+                username: username,
+                password: password
+            };
+
+            fetch('/uaa/baseLogin', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'  // 设置Content-Type为application/json
+                },
+                body: JSON.stringify(loginData)  // 将对象转换为JSON字符串
+            })
+                .then(response => response.text())
+                .then(token => {
+                    document.getElementById('tokenDisplay').innerText = '登录成功！Token: ' + token;
+                })
+                .catch(error => {
+                    console.error('请求失败:', error);
+                    alert('登录失败，请检查您的账号和密码。');
+                });
+        }
+    </script>
+</head>
+<body>
+<h1>请选择登录方式</h1>
+
+<div class="login-option">
+    <button onclick="showLoginForm()">用户名密码登录</button>
+
+    <div id="loginForm" style="display:none;">
+        <h2>请输入您的账号和密码</h2>
+        <label for="username">用户名:</label>
+        <input type="text" id="username" name="username"><br><br>
+        <label for="password">密码:</label>
+        <input type="password" id="password" name="password"><br><br>
+        <button onclick="submitLoginForm()">登录</button>
+    </div>
+    <button onclick="location.href='/uaa/oauth2/authorization/github'">GitHub 登录</button>
+    <button onclick="location.href='/login-ldap'">LDAP 登录</button>
+</div>
+
+<!-- Token 显示区域 -->
+<div id="tokenDisplay" style="margin-top:20px;"></div>
+
+</body>
+</html>

@@ -1,0 +1,25 @@
+server:
+  port: 8004
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8001/eureka/  # Eureka 注册中心的 URL
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/xmx?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&verifyServerCertificate=false&useSSL=false&allowMultiQueries=true
+    username: root
+    password: '020511'
+  application:
+    name: uaa-service
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: Ov23liTJcfSlDVUsiI5Q
+            client-secret: be83b023f6c02fbd7972eb742ceedfaf5c0abf80
+            redirect-uri: http://123.60.137.159:8004/login/oauth2/code/github
+            scope: read:user
+      default-success-url: /hello
